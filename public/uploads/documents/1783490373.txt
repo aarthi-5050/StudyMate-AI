@@ -1,0 +1,1372 @@
+
+
+Based on the images provided, here is the transcribed content from your lab document.
+ 
+​**EX NO: 04 | Installation of Wireshark, tcpdump, etc, observe the data transfer in client server communication using TCP/UDP and identify the TCP/UDP datagram.**
+ 
+​The purpose of this document is to introduce the packet sniffer Wireshark. Wireshark would be used for the lab experiments. This document introduces the basic operation of a packet sniffer, installation, and a test run of Wireshark.
+ 
+### ​What is Wireshark?
+ 
+​Wireshark is a network packet analyzer. A network packet analyzer presents captured packet data in as much detail as possible. You could think of a network packet analyzer as a measuring device for examining what’s happening inside a network cable, just like an electrician uses a voltmeter for examining what’s happening inside an electric cable (but at a higher level, of course).
+ 
+​Wireshark, a network analysis tool formerly known as Ethereal, captures packets in real time and display them in human-readable format. Wireshark includes filters, color-coding, and other features that let you dig deep into network traffic and inspect individual packets.
+ 
+​**Figure 1: Packet sniffer structure**
+ 
+*(The diagram illustrates the interaction between the packet sniffer, packet analyzer, and the protocol stack including Physical, Link, Network, Transport, and Application layers.)*
+ 
+### ​Data Encapsulation into the Protocol Layers
+ 
+​**Figure 1b: Protocol Data Encapsulation**
+ 
+*(The diagram shows the top-down flow: Application Data* *\rightarrow* *TCP Packet (with TCP Header)* *\rightarrow* *IP Packet (with IP Header)* *\rightarrow* *Ethernet Packet (with Ethernet Header).)*
+ 
+### ​PACKET SNIFFER
+ 
+​The basic tool for observing the messages exchanged as packets on the network using a variety of protocols is called a packet sniffer. As the name suggests, a packet sniffer captures ("sniffs") messages being sent/received from/by your computer; it will also typically store and/or display the contents of the various protocol fields in these captured messages. A packet sniffer itself is passive. It observes messages being sent and received by applications and protocols running on your computer, but never sends packets itself.
+ 
+​Figure 1 shows the structure of a packet sniffer. At the right of Figure 1 are the protocols (in this case, Internet protocols) and applications (such as a web browser or ftp client) that normally run on your computer. The packet sniffer, shown within the dashed rectangle in Figure 1 is an addition to the usual software in your computer and consists of two parts. The packet capture library receives a copy of every link-layer frame that is sent from or received by your computer. Messages exchanged by higher layer protocols such as HTTP, FTP, TCP, UDP, DNS, or IP all are eventually encapsulated in link-layer frames that are transmitted over physical media such as an Ethernet cable.
+ 
+​The second component of a packet sniffer is the packet analyzer, which displays the contents of all fields within a protocol message. In order to do so, the packet analyzer must "understand" the structure of all messages exchanged by protocols. For example, suppose we are interested in displaying the various fields in messages exchanged by the HTTP protocol.
+ 
+​The packet analyzer understands the format of Ethernet frames, and so can identify the IP datagram within an Ethernet frame. It also understands the IP datagram format, so that it can extract the TCP segment within the IP datagram. Finally, it understands the TCP segment structure, so it can extract the HTTP message contained in the TCP segment.
+ 
+### ​Getting Wireshark
+ 
+​Wireshark can be installed in any operating system, just go to [https://www.wireshark.org/download.html](https://www.wireshark.org/download.html)
+ 
+​You can download the version of Wireshark that matches your operating system.
+ 
+### ​Running Wireshark
+ 
+​When you run the Wireshark program, the Wireshark graphical user interface shown in Figure 2 will be displayed. Initially, no data will be displayed in the various windows.
+ 
+### ​WIRESHARK USER INTERFACE
+ 
+​The Wireshark interface has five major components:
+ 
+ 
+- ​**The command menus:** Standard pulldown menus located at the top window (File, Capture, etc.).
+ 
+- ​**The packet-listing window:** Displays a one-line summary for each packet captured, including packet number, time, source/destination addresses, protocol type, and info.
+ 
+- ​**The packet-header details window:** Provides details about the packet selected in the packet-listing window. This includes information about the Ethernet frame, IP datagram, and TCP/UDP details.
+ 
+- ​**The packet-contents window:** Displays the entire contents of the captured frame in both ASCII and hexadecimal format.
+ 
+- ​**The packet display filter field:** Located towards the top, where protocol names or criteria can be entered to filter displayed packets.
+ 
+
+ 
+### ​Test Run
+ 
+ 
+1. ​Start up your favorite web browser.
+ 
+2. ​Start the Wireshark software. **You need to select an interface and press Start.**
+ 
+3. ​After your browser has displayed the http://www.gmu.edu page, stop Wireshark packet capture by selecting stop in the Wireshark capture window.
+ 
+4. ​**Color Coding:** Wireshark uses colors to help you identify types of traffic. By default, green is TCP traffic, dark blue is DNS traffic, light blue is UDP traffic, and black identifies TCP packets with problems.
+ 
+
+ 
+### ​Inspecting Packets
+ 
+​To inspect packets, click on one of the packets and go to the bottom pane. Notice that although there is a lot of interesting information, the view of the packet is not very easy to read.
+ 
+### ​Inspecting Packet Flows (Network Connections)
+ 
+ 
+1. ​To filter the connections to the ones we want to focus on, we have to use the filtering functionality of Wireshark by typing "**http**" in the filtering field.
+ 
+2. ​Typing a destination host directly (e.g., www.gmu.edu) will result in an error because Wireshark needs specific protocol fields.
+ 
+3. ​To further filter packets, use a more precise filter like http.host == www.gmu.edu. Notice the use of two equal signs (==) to perform the match.   This is my network security la study experiment .with these give what should I write for tomorrow lab exam
+
+EX NO: 04
+Installation of Wireshark, tcpdump, etc., observe the data transfer in client-server communication using TCP/UDP and identify the TCP/UDP datagram
+AIM
+To install Wireshark/tcpdump, capture network packets, observe TCP and UDP communication between client and server, and identify TCP/UDP datagrams.
+
+SOFTWARE REQUIREMENTS
+Operating System: Windows/Linux
+
+Wireshark
+
+tcpdump
+
+Internet Connection
+
+THEORY
+What is Wireshark?
+Wireshark is a network packet analyzer used to capture and analyze packets transmitted over a network in real time. It displays packets in human-readable format and helps in inspecting TCP, UDP, HTTP, DNS, and other protocol communications.
+
+Packet Sniffer
+A packet sniffer captures packets sent and received through the network interface. It consists of:
+
+Packet Capture Library
+
+Packet Analyzer
+
+The analyzer interprets Ethernet frames, IP datagrams, TCP segments, and application layer data.
+
+TCP Datagram
+TCP is a connection-oriented protocol that provides reliable communication using:
+
+Sequence numbers
+
+Acknowledgments
+
+Error checking
+
+UDP Datagram
+UDP is a connectionless protocol used for fast communication without reliability mechanisms.
+
+DATA ENCAPSULATION
+Application Data
+↓
+TCP/UDP Segment
+↓
+IP Datagram
+↓
+Ethernet Frame
+
+PROCEDURE
+Installing Wireshark
+Download Wireshark Official Website
+
+Install the software according to the operating system.
+
+Launch Wireshark after installation.
+
+Capturing Packets
+Open Wireshark.
+
+Select the active network interface.
+
+Click Start to begin packet capture.
+
+Open a web browser and visit any website.
+
+Observe packets captured in Wireshark.
+
+Stop the capture after loading the webpage.
+
+Filtering Packets
+Type http in the filter field to display HTTP packets.
+
+Use tcp to display TCP packets.
+
+Use udp to display UDP packets.
+
+Identifying TCP/UDP Datagram
+Select a captured packet.
+
+Expand Ethernet Header.
+
+Expand Internet Protocol Header.
+
+Expand TCP or UDP Header.
+
+Observe:
+
+Source Port
+
+Destination Port
+
+Sequence Number (TCP)
+
+Length
+
+Checksum
+
+WIRESHARK INTERFACE
+Command Menus
+
+Packet Listing Window
+
+Packet Header Details Window
+
+Packet Contents Window
+
+Packet Display Filter Field
+
+OBSERVATION
+TCP packets are displayed in green color.
+
+UDP packets are displayed in light blue color.
+
+DNS packets appear in dark blue color.
+
+TCP ensures reliable communication.
+
+UDP provides faster but unreliable communication.
+
+SAMPLE FILTERS
+Filter	Purpose
+tcp	Display TCP packets
+udp	Display UDP packets
+http	Display HTTP traffic
+dns	Display DNS packets
+ip.addr == 192.168.1.1	Filter by IP address
+RESULT
+Thus, Wireshark and tcpdump were installed successfully, packets were captured, and TCP/UDP datagrams were identified and analyzed successfully.
+
+VIVA QUESTIONS
+1. What is Wireshark?
+Wireshark is a network packet analyzer used to capture and analyze network traffic.
+
+2. What is a packet sniffer?
+A packet sniffer is a tool used to monitor and capture packets flowing through a network.
+
+3. Difference between TCP and UDP?
+TCP is reliable and connection-oriented, while UDP is faster and connectionless.
+
+4. Which filter is used to display TCP packets?
+tcp
+
+5. Which protocol is used for web browsing?
+HTTP/HTTPS over TCP.
+
+6. What is the use of packet filtering?
+Packet filtering helps to display only required packets for analysis.
+
+7. What is encapsulation?
+Encapsulation is the process of adding headers at different protocol layers during data transmission.
+
+8. What is tcpdump?
+tcpdump is a command-line packet analyzer used for capturing network packets in Linux/Unix systems.
+
+
+Like this give for experiment eavesdropping. Here is the transcribed content from your lab document.
+​To experiment Eavesdropping, Dictionary Attack, MITM Attacks.
+​EAVESDROPPING:
+​Eavesdropping refers to the unauthorised and unseen intervention of a private, live conversation.
+​Sniffing or Eavesdropping pertains to the act of acquiring or intercepting data by capturing the communication flow within a network using a packet sniffer tool.
+​This technique involves monitoring the packets of information passing through the network, allowing unauthorized access to sensitive data, akin to theft or unauthorized interception of information.
+​During the transmission of data across networks, if the data packets lack encryption, they become vulnerable to interception, enabling unauthorized parties to read the contents of these network packets with the use of a sniffer.
+​Eavesdropping Attack
+(The diagram illustrates an Original Communication between a Computer User and a Server, which is intercepted by a Hacker using a Sniffer tool.)
+​Categories of Network Sniffing:
+Active and Passive Sniffing attacks are two distinct categories of network sniffing techniques used by attackers to intercept and analyze data traffic.
+​1. Active Sniffing:
+Active Sniffing is performed through a Switch and it is easy to detect. It involves more direct interaction with the network traffic. Instead of just observing and capturing data, the attacker actively injects or modifies packets within the communication flow.
+​2. Passive Sniffing:
+Passive Sniffing is performed through a Hub which is difficult to detect. It involves silently capturing and monitoring network traffic without altering or modifying the data being transmitted. The attacker's presence is relatively discreet, as they do not actively participate in the communication process. They just observe the data that flows through the network, looking for sensitive/crucial information that is not encrypted.
+​Experimenting Eavesdropping:
+​Step 1: Launch the Wireshark software on your computer and choose the ‘eth0’ option. In your web browser, input the URL we want to capture login credentials from.
+​(Image displays the Wireshark startup screen with the interface list.)
+​Step 2: Input the login credentials, which are ‘test’, and then click on the login button.
+​Step 3: Then by entering ‘http’ in the filter section, the captured packets using the HTTP protocol will be shown. Choose ‘Follow’ to access additional options, then select ‘http stream’ from the available choices.
+
+EX NO: 05
+Experiment on Eavesdropping using Wireshark
+AIM
+To study and experiment with Eavesdropping attacks using Wireshark and observe the interception of network packets.
+
+SOFTWARE REQUIREMENTS
+Operating System: Windows/Linux
+
+Wireshark
+
+Web Browser
+
+Internet Connection
+
+THEORY
+What is Eavesdropping?
+Eavesdropping refers to the unauthorized interception and monitoring of communication between two systems. Attackers capture packets traveling across the network to obtain sensitive information such as usernames, passwords, and other confidential data.
+
+This attack is also called Sniffing because packet sniffer tools are used to monitor network traffic.
+
+When data packets are transmitted without encryption, attackers can easily read the contents of the packets.
+
+EAVESDROPPING ATTACK
+In an eavesdropping attack:
+
+A user communicates with a server.
+
+A hacker uses a sniffer tool to capture the packets exchanged.
+
+Sensitive information can be viewed if the communication is not encrypted.
+
+TYPES OF NETWORK SNIFFING
+1. Active Sniffing
+Performed in switched networks.
+
+The attacker injects or modifies packets.
+
+Easier to detect.
+
+Commonly uses ARP spoofing techniques.
+
+2. Passive Sniffing
+Performed in hub-based networks.
+
+The attacker silently monitors traffic.
+
+Difficult to detect.
+
+No modification of packets occurs.
+
+PROCEDURE
+Step 1: Launch Wireshark
+Open Wireshark.
+
+Select the network interface such as eth0.
+
+Click Start to begin packet capture.
+
+Step 2: Open Website
+Open a web browser.
+
+Visit a sample HTTP login webpage.
+
+Enter login credentials such as:
+
+Username: test
+
+Password: test
+
+Step 3: Capture HTTP Packets
+Return to Wireshark.
+
+In the filter field, type:
+
+http
+Press Enter to display only HTTP packets.
+
+Step 4: Follow HTTP Stream
+Select one HTTP packet.
+
+Right click the packet.
+
+Choose:
+
+Follow → HTTP Stream
+Observe the transmitted login information.
+
+OBSERVATION
+HTTP packets containing login credentials were captured successfully.
+
+Username and password were visible because the communication was not encrypted.
+
+Wireshark displayed packet details including:
+
+Source IP
+
+Destination IP
+
+Protocol
+
+Packet contents
+
+SAMPLE FILTERS
+Filter	Purpose
+http	Display HTTP packets
+tcp	Display TCP packets
+ip.addr == 192.168.1.1	Filter by IP address
+dns	Display DNS traffic
+RESULT
+Thus, the Eavesdropping attack was studied successfully using Wireshark by capturing and analyzing HTTP packets transmitted over the network.
+
+PRECAUTIONS
+Perform the experiment only in a controlled lab environment.
+
+Do not capture unauthorized private network traffic.
+
+Use HTTPS to prevent packet interception.
+
+VIVA QUESTIONS
+1. What is Eavesdropping?
+Eavesdropping is the unauthorized interception of network communication.
+
+2. What is sniffing?
+Sniffing is the process of capturing and monitoring network packets.
+
+3. Which tool is commonly used for sniffing?
+Wireshark is commonly used for packet sniffing and analysis.
+
+4. Difference between active and passive sniffing?
+Active sniffing modifies traffic and is easier to detect, while passive sniffing only monitors traffic silently.
+
+5. Why is HTTP vulnerable to eavesdropping?
+HTTP transmits data without encryption, making packet contents readable.
+
+6. Which protocol is more secure: HTTP or HTTPS?
+HTTPS is more secure because it uses encryption.
+
+7. What is the purpose of packet filtering in Wireshark?
+Packet filtering helps display only required packets for analysis.
+
+8. What is an HTTP Stream?
+HTTP Stream shows the complete communication between client and server.
+
+
+Like this give for dictionary attack
+
+EX NO: 06
+Experiment on Dictionary Attack
+AIM
+To study and perform a Dictionary Attack and understand password cracking using predefined wordlists.
+
+SOFTWARE REQUIREMENTS
+Operating System: Windows/Linux
+
+Wireshark (optional for monitoring)
+
+Hydra / any password testing tool
+
+Wordlist/Dictionary file
+
+Internet or Local Test Server
+
+THEORY
+What is a Dictionary Attack?
+A Dictionary Attack is a password cracking technique in which the attacker tries a list of commonly used passwords stored in a file called a dictionary or wordlist.
+
+The attack works by repeatedly attempting logins using each word from the dictionary until the correct password is found.
+
+Dictionary attacks are faster than brute-force attacks because they use likely passwords instead of trying every possible combination.
+
+DICTIONARY ATTACK
+In a dictionary attack:
+
+The attacker selects a target login page or service.
+
+A predefined password list is used.
+
+Login attempts are automated.
+
+Weak passwords can be discovered easily.
+
+Commonly used weak passwords:
+
+123456
+
+password
+
+admin
+
+qwerty
+
+TYPES OF PASSWORD ATTACKS
+1. Dictionary Attack
+Uses a predefined list of passwords.
+
+2. Brute Force Attack
+Tries every possible character combination.
+
+3. Hybrid Attack
+Combines dictionary words with numbers and symbols.
+
+PROCEDURE
+Step 1: Prepare Wordlist
+Create or download a dictionary file containing common passwords.
+
+Save the file as:
+
+wordlist.txt
+Example passwords:
+
+123456
+password
+admin
+test123
+qwerty
+Step 2: Launch Password Testing Tool
+Open the terminal/command prompt.
+
+Launch Hydra or any password auditing tool.
+
+Step 3: Perform Dictionary Attack
+Use the following command format:
+
+hydra -l admin -P wordlist.txt <target-ip> http-post-form
+Where:
+
+-l → username
+
+-P → password dictionary file
+
+<target-ip> → target system IP
+
+Step 4: Observe Results
+The tool tests passwords one by one.
+
+If the password matches, login success message is displayed.
+
+Weak passwords can be identified easily.
+
+OBSERVATION
+The attack successfully tested passwords from the dictionary file.
+
+Weak passwords were cracked quickly.
+
+Strong passwords with symbols and mixed characters were difficult to crack.
+
+ADVANTAGES OF DICTIONARY ATTACK
+Faster than brute-force attack
+
+Easy to perform
+
+Effective against weak passwords
+
+LIMITATIONS
+Cannot crack strong complex passwords easily
+
+Depends on quality of dictionary file
+
+Time increases with larger wordlists
+
+PREVENTION METHODS
+Use strong passwords
+
+Enable multi-factor authentication
+
+Limit login attempts
+
+Use account lockout mechanisms
+
+Avoid common passwords
+
+RESULT
+Thus, the Dictionary Attack was studied successfully and weak passwords were identified using a predefined wordlist.
+
+VIVA QUESTIONS
+1. What is a Dictionary Attack?
+A Dictionary Attack is a password cracking technique using a list of common passwords.
+
+2. What is the difference between brute-force and dictionary attack?
+Dictionary attack uses common passwords, while brute-force tries all possible combinations.
+
+3. What is a wordlist?
+A wordlist is a file containing possible passwords used during the attack.
+
+4. Which passwords are vulnerable to dictionary attacks?
+Weak and common passwords are vulnerable.
+
+5. What is Hydra?
+Hydra is a password auditing and testing tool.
+
+6. How can dictionary attacks be prevented?
+By using strong passwords and multi-factor authentication.
+
+7. What is a strong password?
+A strong password contains uppercase, lowercase, numbers, and special characters.
+
+8. Why are weak passwords dangerous?
+Weak passwords can be cracked easily by attackers.
+
+
+Give a procedure using kali linux for this dictionary attack 
+
+PROCEDURE USING KALI LINUX FOR DICTIONARY ATTACK
+Step 1: Start Kali Linux
+Open Kali Linux.
+
+Login to the system.
+
+Step 2: Open Terminal
+Click the terminal icon.
+
+Verify internet/network connection.
+
+Step 3: Create a Wordlist File
+Create a text file containing common passwords.
+
+Command:
+
+nano wordlist.txt
+Add sample passwords:
+
+123456
+password
+admin
+test123
+qwerty
+Save the file using:
+
+CTRL + O → Enter
+
+CTRL + X to exit
+
+Step 4: Start Target Login Service
+Open a test login webpage or local server.
+
+Identify:
+
+Target IP address
+
+Username
+
+Login form type
+
+Example:
+
+Username: admin
+Target IP: 192.168.1.10
+Step 5: Use Hydra Tool
+Hydra is preinstalled in Kali Linux.
+
+Run the command:
+
+hydra -l admin -P wordlist.txt 192.168.1.10 http-post-form
+Where:
+
+-l → Username
+
+-P → Password list file
+
+192.168.1.10 → Target IP
+
+Step 6: Observe the Output
+Hydra tries passwords one by one.
+
+If the password matches, successful login message appears.
+
+Example Output:
+
+[80][http-post-form] host: 192.168.1.10   login: admin   password: test123
+Step 7: Stop the Attack
+Press:
+
+CTRL + C
+to stop the process.
+
+RESULT
+Thus, the Dictionary Attack was performed successfully in Kali Linux using Hydra and weak passwords were identified from the wordlist.
+
+
+Give fot MITM attack
+
+EX NO: 07
+Experiment on Man-In-The-Middle (MITM) Attack
+AIM
+To study and perform a Man-In-The-Middle (MITM) attack and observe interception of communication between client and server.
+
+SOFTWARE REQUIREMENTS
+Operating System: Kali Linux
+
+Wireshark
+
+Ettercap / Bettercap
+
+Web Browser
+
+Local Network Connection
+
+THEORY
+What is a MITM Attack?
+A Man-In-The-Middle (MITM) attack is a cyberattack where the attacker secretly intercepts communication between two systems without their knowledge.
+
+The attacker places themselves between:
+
+Client (User)
+
+Server
+
+and captures or modifies transmitted data.
+
+MITM attacks are commonly performed using:
+
+ARP Spoofing
+
+DNS Spoofing
+
+Session Hijacking
+
+MITM ATTACK
+In a MITM attack:
+
+The victim communicates with a server.
+
+The attacker intercepts the communication.
+
+Sensitive data such as login credentials may be captured.
+
+TYPES OF MITM ATTACKS
+1. ARP Spoofing
+The attacker sends fake ARP messages to associate their MAC address with the victim’s IP address.
+
+2. DNS Spoofing
+The attacker redirects users to fake websites.
+
+3. Session Hijacking
+The attacker steals session cookies to gain unauthorized access.
+
+PROCEDURE USING KALI LINUX
+Step 1: Start Kali Linux
+Open Kali Linux.
+
+Login to the system.
+
+Step 2: Find Network Interface
+Open terminal and type:
+
+ifconfig
+Identify the active network interface such as:
+
+eth0
+Step 3: Enable IP Forwarding
+Run the command:
+
+echo 1 > /proc/sys/net/ipv4/ip_forward
+This allows packet forwarding through the attacker system.
+
+Step 4: Launch Ettercap
+Start Ettercap using:
+
+ettercap -G
+Step 5: Scan Hosts
+In Ettercap:
+
+Select Sniff → Unified Sniffing
+
+Choose interface eth0
+
+Click:
+
+Hosts → Scan for Hosts
+
+View discovered systems using:
+
+Hosts → Hosts List
+
+Step 6: Select Targets
+Add victim system as Target 1.
+
+Add router/gateway as Target 2.
+
+Step 7: Start ARP Spoofing
+Select:
+
+Mitm → ARP Poisoning
+Enable:
+
+Sniff Remote Connections
+Click OK.
+
+Step 8: Capture Packets
+Open Wireshark.
+
+Start capturing packets.
+
+Observe intercepted traffic between victim and server.
+
+OBSERVATION
+Communication packets between client and server were intercepted.
+
+ARP spoofing redirected traffic through the attacker machine.
+
+HTTP traffic and network details were visible.
+
+PREVENTION METHODS
+Use HTTPS encryption
+
+Use VPN
+
+Enable static ARP entries
+
+Use secure switches
+
+Implement network monitoring tools
+
+RESULT
+Thus, the Man-In-The-Middle (MITM) attack was studied successfully using Kali Linux and Ettercap.
+
+VIVA QUESTIONS
+1. What is a MITM attack?
+A MITM attack is an attack where communication between two systems is intercepted secretly.
+
+2. What is ARP Spoofing?
+ARP Spoofing is sending fake ARP messages to redirect network traffic.
+
+3. Which tool is commonly used for MITM attacks?
+Ettercap is commonly used for MITM attacks.
+
+4. What is the purpose of IP forwarding?
+IP forwarding allows packets to pass through the attacker machine.
+
+5. Why is HTTPS important?
+HTTPS encrypts communication and prevents interception.
+
+6. What is session hijacking?
+Session hijacking is stealing a user session to gain unauthorized access.
+
+7. Which protocol is targeted in ARP spoofing?
+ARP protocol.
+
+8. How can MITM attacks be prevented?
+Using HTTPS, VPNs, and secure network configurations.
+
+
+EX NO : 7 | Experiment With Sniff Traffic Using Arp Poisoning
+​AIM:
+​To Experiment Sniff Traffic using ARP Poisoning.
+​ARP POISONING:
+​Address Resolution Protocol (ARP) poisoning is an attack that involves sending spoofed ARP messages over a local area network. It’s also known as ARP spoofing, ARP poison routing and ARP cache poisoning. ARP poisoning is a type of man-in-the-middle attack that can be used to stop network traffic, change it, or intercept it. The technique is often used to initiate further offensives, such as session hijacking or denial-of-service.
+​The relationship between a given MAC address and its IP address is kept in a table known as the ARP cache. When a packet heading towards a host on a LAN gets to the gateway, the gateway uses ARP to associate the MAC or physical host address with its correlating IP address.
+​The host then searches through its ARP cache. If it locates the corresponding address, it is used to convert the format and packet length. Otherwise, ARP will send out a request packet that asks other machines on the local network if they know the correct address. When a machine replies with the address, the ARP cache is updated.
+​ARP Poisoning Countermeasures:
+​We can use several methods to prevent ARP poisoning, each with its own positives and negatives. These include static ARP entries, encryption, VPNs, packet sniffing, Poisoning detection software, OS security, etc.
+​Static ARP entries:
+This solution involves a lot of administrative overhead and is only recommended for smaller networks. It involves adding an ARP entry for every machine on a network into each individual computer.
+​Encryption:
+Protocols such as HTTPS and SSH can also help to reduce the chances of a successful ARP poisoning attack. When traffic is encrypted, the attacker would have to go to the additional step of tricking the target’s browser into accepting an illegitimate certificate.
+​VPN: If it is just a single person making a potentially dangerous connection, such as using public wifi at an airport, then a VPN will encrypt all of the data that travels between the client and the exit server.
+​Operating System Security:
+​This measure is dependent on the OS being used. The following are the basic techniques used by various operating systems.
+​Linux: These work by ignoring unsolicited ARP reply packets.
+​Microsoft Windows: The ARP cache behavior can be configured via the registry. The following list includes some of the software that can be used to protect networks against sniffing:
+​AntiARP - provides protection against both passive and active sniffing.
+​Agnitum Outpost Firewall - provides protection against passive sniffing.
+​XArp - provides protection against both passive and active sniffing.
+​Mac OS: ArpGuard can be used to provide protection. It protects against both active and passive sniffing.
+​Sniff Traffic:
+​Network sniffing is the process of intercepting data packets sent over a network. This can be done by specialized software programs or hardware equipment.
+​Sniffing can be used to:
+​Capture sensitive data such as login credentials
+​Eavesdrop on chat messages
+​Capture files that have been transmitted over a network.   First a exam short this and make easy 
+
+EX NO: 07
+Experiment With Sniff Traffic Using ARP Poisoning
+AIM
+To experiment sniffing network traffic using ARP Poisoning.
+
+THEORY
+ARP Poisoning
+ARP (Address Resolution Protocol) Poisoning is an attack where fake ARP messages are sent over a local network. It is also called:
+
+ARP Spoofing
+
+ARP Cache Poisoning
+
+In this attack, the attacker connects their MAC address with the victim’s IP address. This allows the attacker to intercept network traffic.
+
+ARP poisoning is a type of:
+
+Man-In-The-Middle (MITM) attack
+
+It can be used to:
+
+Intercept traffic
+
+Modify packets
+
+Stop network communication
+
+Capture login credentials
+
+ARP CACHE
+ARP cache stores:
+
+IP Address
+
+Corresponding MAC Address
+
+When the correct address is not found, ARP sends a request to the network and updates the cache after receiving a reply.
+
+COUNTERMEASURES OF ARP POISONING
+1. Static ARP Entries
+Manually adding IP-MAC entries in systems.
+
+2. Encryption
+Using HTTPS and SSH protects transmitted data.
+
+3. VPN
+VPN encrypts network traffic and improves security.
+
+4. Operating System Security
+Linux ignores unsolicited ARP replies.
+
+Windows provides registry-based ARP settings.
+
+5. Anti-Sniffing Tools
+AntiARP
+
+XArp
+
+Agnitum Outpost Firewall
+
+SNIFF TRAFFIC
+Network sniffing means capturing packets traveling through a network.
+
+Sniffing can be used to:
+
+Capture login credentials
+
+Read chat messages
+
+Capture transmitted files
+
+PROCEDURE
+Step 1:
+Open Kali Linux.
+
+Step 2:
+Open terminal and identify network interface:
+
+ifconfig
+Step 3:
+Enable IP forwarding:
+
+echo 1 > /proc/sys/net/ipv4/ip_forward
+Step 4:
+Start Ettercap:
+
+ettercap -G
+Step 5:
+Choose:
+
+Sniff → Unified Sniffing
+Select interface:
+
+eth0
+Step 6:
+Scan hosts:
+
+Hosts → Scan for Hosts
+Step 7:
+Add:
+
+Victim system as Target 1
+
+Gateway/router as Target 2
+
+Step 8:
+Start ARP poisoning:
+
+Mitm → ARP Poisoning
+Enable:
+
+Sniff Remote Connections
+Step 9:
+Open Wireshark and capture packets.
+
+Step 10:
+Observe intercepted traffic packets.
+
+OBSERVATION
+ARP spoofing redirected traffic through attacker system.
+
+Network packets were captured successfully.
+
+Sensitive information in unencrypted traffic could be viewed.
+
+RESULT
+Thus, sniffing traffic using ARP Poisoning was performed successfully and network packets were analyzed.
+
+VIVA QUESTIONS
+1. What is ARP Poisoning?
+ARP Poisoning is sending fake ARP messages to intercept network traffic.
+
+2. What is ARP cache?
+ARP cache stores IP and MAC address mappings.
+
+3. What is sniffing?
+Sniffing is capturing and monitoring network packets.
+
+4. Which tool is used for ARP Poisoning?
+Ettercap
+
+5. What is the purpose of IP forwarding?
+It allows packets to pass through the attacker system.
+
+6. How can ARP Poisoning be prevented?
+Using HTTPS, VPN, static ARP entries, and anti-sniffing tools.
+
+7. What type of attack is ARP Poisoning?
+Man-In-The-Middle attack.
+
+8. What is the use of Wireshark?
+Wireshark is used for capturing and analyzing network packets.
+
+
+EX NO : 8 | Intrusion Detection System (IDS)
+​AIM:
+To demonstrate Intrusion Detection System (IDS) using Snort software tool.
+​STEPS ON CONFIGURING AND INTRUSION DETECTION:
+​Download Snort from the Snort.org website. (http://www.snort.org/snort-downloads)
+​Download Rules (https://www.snort.org/snort-rules). You must register to get the rules. (You should download these often)
+​Double click on the .exe to install snort. This will install snort in the “C:\Snort” folder. It is important to have WinPcap (https://www.winpcap.org/install/) installed.
+​Extract the Rules file. You will need WinRAR for the .gz file.
+​Copy all files from the “rules” folder of the extracted folder. Now paste the rules into “C:\Snort\rules” folder.
+​Copy “snort.conf” file from the “etc” folder of the extracted folder. You must paste it into “C:\Snort\etc” folder. Overwrite any existing file. Remember if you modify your snort.conf file and download a new file, you must modify it for Snort to work.
+​Open a command prompt (cmd.exe) and navigate to folder “C:\Snort\bin” folder. (at the Prompt, type cd \snort\bin)
+​To start (execute) snort in sniffer mode use following command: snort -dev -i 3. -i indicates the interface number. You must pick the correct interface number. In my case, it is 3. -dev is used to run snort to capture packets on your network. To check the interface list, use following command: snort –W
+​To run snort in IDS mode, you will need to configure the file “snort.conf” according to your network environment.
+​To specify the network address that you want to protect in snort.conf file, look for the following line: var HOME_NET 192.168.1.0/24 (You will normally see any here)
+​You may also want to set the addresses of DNS_SERVERS, if you have some on your network.
+​Example:
+example snort
+​Change the RULE_PATH variable to the path of rules folder:
+var RULE_PATH c:\snort\rules
+​Change the path of all library files with the name and path on your system. and you must change the path of snort_dynamicpreprocessor variable:
+C:\Snort\lib\snort_dynamicpreprocessor
+You need to do this to all library files in the “C:\Snort\lib” folder. The old path might be: “/usr/local/lib/…”. you will need to replace that path with your system path using C:\Snort\lib.
+​Change the path of the “dynamicengine” variable value in the “snort.conf”.
+Example:
+dynamicengine C:\Snort\lib\snort_dynamicengine\sf_engine.dll
+​Add the paths for “include classification.config” and “include reference.config” files:
+include c:\snort\etc\classification.config
+include c:\snort\etc\reference.config
+​Remove the comment (#) on the line to allow ICMP rules, if it is commented with a #:
+include $RULE_PATH/icmp.rules
+​You can also remove the comment of ICMP-info rules comment, if it is commented:
+include $RULE_PATH/icmp-info.rules
+​To add log files to store alerts generated by snort, search for the “output log” test in snort.conf and add the following line:
+output alert_fast: snort-alerts.ids
+​Comment (add a #) the whitelist $WHITE_LIST_PATH/white_list.rules and the blacklist. Change the nested_ip inner , \ to nested_ip inner #, \
+​Comment out (#) following lines:
+#preprocessor normalize_ip4
+#preprocessor normalize_tcp: ips ecn stream
+#preprocessor normalize_icmp4
+#preprocessor normalize_ip6
+#preprocessor normalize_icmp6. Make this easy to study
+
+EX NO: 08
+Intrusion Detection System (IDS) using Snort
+AIM
+To demonstrate Intrusion Detection System (IDS) using Snort software tool.
+
+THEORY
+What is IDS?
+An Intrusion Detection System (IDS) is a security tool used to monitor network traffic and detect malicious activities or attacks.
+
+What is Snort?
+Snort is an open-source Network Intrusion Detection System (NIDS).
+It analyzes network packets and generates alerts when suspicious traffic is detected.
+
+Snort can work in:
+
+Sniffer Mode
+
+Packet Logger Mode
+
+IDS Mode
+
+SOFTWARE REQUIREMENTS
+Windows OS
+
+Snort
+
+WinPcap
+
+WinRAR
+
+Snort Rules Package
+
+PROCEDURE
+Step 1: Download Snort
+Download Snort Official Website
+
+Install Snort in:
+
+C:\Snort
+Step 2: Install WinPcap
+Download and install:
+WinPcap Official Website
+
+Step 3: Download Snort Rules
+Download rules from:
+Snort Rules Download
+
+Extract the downloaded .gz file using WinRAR.
+
+Step 4: Copy Rules Files
+Copy all files from:
+
+rules
+Paste into:
+
+C:\Snort\rules
+Step 5: Copy snort.conf File
+Copy:
+
+snort.conf
+from extracted etc folder to:
+
+C:\Snort\etc
+Step 6: Open Command Prompt
+Open CMD and move to:
+
+cd \Snort\bin
+Step 7: Check Network Interfaces
+Run:
+
+snort -W
+This displays available interfaces.
+
+Step 8: Run Snort in Sniffer Mode
+Execute:
+
+snort -dev -i 3
+Where:
+
+-d → Display application layer data
+
+-e → Display link layer headers
+
+-v → Verbose mode
+
+-i 3 → Interface number
+
+Step 9: Configure snort.conf
+Open:
+
+C:\Snort\etc\snort.conf
+Set HOME_NET
+var HOME_NET 192.168.1.0/24
+Set RULE_PATH
+var RULE_PATH c:\snort\rules
+Step 10: Add Alert Log
+Add:
+
+output alert_fast: snort-alerts.ids
+Step 11: Enable ICMP Rules
+Remove # symbol:
+
+include $RULE_PATH/icmp.rules
+include $RULE_PATH/icmp-info.rules
+Step 12: Run Snort in IDS Mode
+Run:
+
+snort -c c:\snort\etc\snort.conf -i 3
+Snort starts monitoring network traffic and generates alerts.
+
+OBSERVATION
+Snort captured network packets successfully.
+
+Alerts were generated for suspicious traffic.
+
+ICMP packets and network activities were monitored.
+
+RESULT
+Thus, the Intrusion Detection System (IDS) using Snort was configured and tested successfully.
+
+VIVA QUESTIONS
+1. What is IDS?
+IDS is a system used to detect malicious activities in a network.
+
+2. What is Snort?
+Snort is an open-source intrusion detection system.
+
+3. What is the use of WinPcap?
+WinPcap captures network packets in Windows.
+
+4. What is snort.conf?
+It is the main configuration file of Snort.
+
+5. What is HOME_NET?
+HOME_NET specifies the protected network address.
+
+6. What is RULE_PATH?
+RULE_PATH specifies the folder containing Snort rules.
+
+7. What is Sniffer Mode?
+Sniffer mode captures and displays network packets.
+
+8. What is IDS Mode?
+IDS mode detects attacks and generates alerts.
+
+
+EX NO : 9 | Monitoring Malware Using Rootkit Hunter
+​AIM:
+​To install a rootkit hunter and find the malwares in a computer.
+​ROOTKIT HUNTER:
+​rkhunter (Rootkit Hunter) is a Unix-based tool that scans for rootkits, backdoors and possible local exploits.
+​It does this by comparing SHA-1 hashes of important files with known good ones in online databases, searching for default directories (of rootkits), wrong permissions, hidden files, suspicious strings in kernel modules, and special tests for Linux and FreeBSD.
+​rkhunter is notable due to its inclusion in popular operating systems (Fedora, Debian, etc.).
+​The tool has been written in Bourne shell, to allow for portability. It can run on almost all UNIX-derived systems.
+​SOFTWARE USED:
+​Malwarebytes:
+​Malwarebytes is an anti-malware software used to detect and remove malicious programs such as viruses, worms, trojans, spyware, and rootkits.
+​It scans system files, memory, and registry entries to identify suspicious activities and ensures system security.  Slightly expand this and easy to study
+
+EX NO: 09
+Monitoring Malware Using Rootkit Hunter
+AIM
+To install Rootkit Hunter and detect malware/rootkits in a computer system.
+
+THEORY
+What is Rootkit Hunter?
+Rootkit Hunter (rkhunter) is a Unix/Linux-based security tool used to detect:
+
+Rootkits
+
+Backdoors
+
+Local exploits
+
+Suspicious files
+
+It checks the system by:
+
+Comparing SHA-1 hashes of important files
+
+Searching for hidden files and suspicious directories
+
+Checking wrong file permissions
+
+Detecting suspicious kernel modules
+
+rkhunter is commonly available in Linux operating systems such as:
+
+Fedora
+
+Debian
+
+Ubuntu
+
+It is written in Bourne Shell, making it portable across UNIX-based systems.
+
+WHAT IS A ROOTKIT?
+A rootkit is a type of malware that hides malicious activities inside a computer system and allows unauthorized access to attackers.
+
+Rootkits are dangerous because they:
+
+Hide files and processes
+
+Steal sensitive data
+
+Provide remote access to attackers
+
+Disable security tools
+
+SOFTWARE USED
+1. Rootkit Hunter
+Rootkit Hunter is used to scan Linux systems for rootkits and suspicious activities.
+
+2. Malwarebytes
+Malwarebytes is anti-malware software used to detect and remove:
+
+Viruses
+
+Worms
+
+Trojans
+
+Spyware
+
+Rootkits
+
+It scans:
+
+System files
+
+Memory
+
+Registry entries
+
+to identify malware and improve system security.
+
+PROCEDURE
+Step 1: Open Kali Linux / Linux Terminal
+Start the Linux system and open terminal.
+
+Step 2: Install Rootkit Hunter
+Run the following command:
+
+sudo apt install rkhunter -y
+Step 3: Update Rootkit Hunter Database
+Update rkhunter database:
+
+sudo rkhunter --update
+Step 4: Run System Scan
+Start scanning the system:
+
+sudo rkhunter --check
+Step 5: View Scan Results
+rkhunter scans important system files.
+
+It displays:
+
+Warnings
+
+Suspicious files
+
+Hidden files
+
+Malware indicators
+
+Press:
+
+Enter
+to continue viewing results.
+
+Step 6: Check Log File
+View detailed scan report:
+
+sudo cat /var/log/rkhunter.log
+OBSERVATION
+Rootkit Hunter scanned system files successfully.
+
+Hidden and suspicious files were checked.
+
+Malware indicators and warnings were displayed in the log report.
+
+ADVANTAGES
+Detects rootkits and backdoors
+
+Lightweight security tool
+
+Supports many Linux systems
+
+Easy to use
+
+LIMITATIONS
+Mainly works on UNIX/Linux systems
+
+Cannot remove all malware automatically
+
+Requires regular updates
+
+RESULT
+Thus, Rootkit Hunter was installed successfully and the system was scanned to detect malware and rootkits.
+
+VIVA QUESTIONS
+1. What is Rootkit Hunter?
+Rootkit Hunter is a tool used to detect rootkits and suspicious files in Linux systems.
+
+2. What is a rootkit?
+A rootkit is malware that hides malicious activities and gives unauthorized access to attackers.
+
+3. Which command is used to update rkhunter?
+sudo rkhunter --update
+4. Which command is used to scan the system?
+sudo rkhunter --check
+5. What is Malwarebytes?
+Malwarebytes is software used to detect and remove malware.
+
+6. What are backdoors?
+Backdoors are hidden methods used to access a system without authorization.
+
+7. What is the purpose of SHA-1 hash checking?
+It verifies file integrity by comparing file hashes.
+
+8. Where are rkhunter logs stored?
+/var/log/rkhunter.log
+
+Why didn't you here is a .... like user friendly I really miss that
+
+I switched to a more exam-style format because your recent lab requests looked like you wanted directly writable answers for practical records and viva preparation. So I kept them compact and formal.
+
+But I can absolutely make them more student-friendly again — with sections like:
+
+“Here is an easy short note”
+
+“Important points to remember”
+
+“Exam-friendly procedure”
+
+“Simple explanation”
+
+“One-line result”
+
+That style is actually great for last-minute lab preparation.
+
+
