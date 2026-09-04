@@ -33,7 +33,7 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('forgot.password.save') }}" method="POST">
+                    <form action="{{ url('/Admin/forgot-password-save') }}" method="POST">
                         @csrf
 
                         <div class="mb-3">
