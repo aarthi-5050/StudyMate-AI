@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Http;
 use App\Models\StudyNote;
 use App\Models\Document;
 use App\Models\ChatMessage;
@@ -22,71 +22,100 @@ public function sendOtp(Request $request)
 {
     DB::beginTransaction();
 
-    try{
+    try {
 
-        $otp = rand(1000,9999);
+        $otp = rand(1000, 9999);
 
         session([
-            'otp'=>$otp,
-            'otp_email'=>$request->email
+            'otp' => $otp,
+            'otp_email' => $request->email
         ]);
 
-        Mail::raw(
-            "Your StudyMateAI Login OTP is : ".$otp,
-            function($message) use($request){
+        $response = Http::timeout(10)
+            ->withHeaders([
+                'api-key' => env('BREVO_API_KEY'),
+                'accept' => 'application/json',
+                'content-type' => 'application/json',
+            ])
+            ->post('https://api.brevo.com/v3/smtp/email', [
 
-                $message->to($request->email)
-                        ->subject('StudyMateAI OTP');
+                'sender' => [
+                    'name' => env('BREVO_SENDER_NAME', 'StudyMate AI'),
+                    'email' => env('BREVO_SENDER_EMAIL'),
+                ],
 
-            }
-        );
+                'to' => [
+                    [
+                        'email' => $request->email,
+                    ]
+                ],
+
+                'subject' => 'StudyMateAI Login OTP',
+
+                'textContent' =>
+                    "Your StudyMateAI Login OTP is: " . $otp,
+            ]);
+
+        if (!$response->successful()) {
+
+            Log::error('Brevo API Error', [
+                'status' => $response->status(),
+                'response' => $response->body()
+            ]);
+
+            DB::rollBack();
+
+            return response()->json([
+    'success' => false,
+    'error' => $response->body()
+]);
+        }
 
         DB::commit();
 
-        Log::info('OTP Sent Successfully',[
-            'email'=>$request->email
+        Log::info('OTP Sent Successfully', [
+            'email' => $request->email
         ]);
 
         return response()->json([
-            'success'=>true
+            'success' => true
         ]);
 
-    }
-    catch(\Exception $e){
+    } catch (\Exception $e) {
 
         DB::rollBack();
 
-        Log::error('OTP Sending Failed',[
-            'error'=>$e->getMessage()
+        Log::error('OTP Sending Failed', [
+            'error' => $e->getMessage()
         ]);
 
         return response()->json([
-            'success'=>false
+            'success' => false
         ]);
     }
 }
-    public function loginCheck(Request $request)
+public function loginCheck(Request $request)
 {
     DB::beginTransaction();
 
-    try{
+    try {
 
-        if(
+        if (
             $request->email == session('otp_email') &&
-            $request->password == session('admin_password','123456') &&
+            $request->password == session('admin_password', '123456') &&
             $request->otp == session('otp')
-        ){
+        ) {
 
             session([
-                'admin'=>true
+                'admin' => true
             ]);
 
             session()->forget('otp');
 
             DB::commit();
 
-            Log::info('Admin Login Success',[
-                'email'=>$request->email
+            Log::info('Admin Login Success', [
+                'email' => $request->email
             ]);
 
             return redirect()->route('dashboard');
@@ -94,22 +123,21 @@ public function sendOtp(Request $request)
 
         DB::rollBack();
 
-        Log::warning('Admin Login Failed',[
-            'email'=>$request->email
+        Log::warning('Admin Login Failed', [
+            'email' => $request->email
         ]);
 
-        return back()->with('error','Invalid Credentials or OTP');
+        return back()->with('error', 'Invalid Credentials or OTP');
 
-    }
-    catch(\Exception $e){
+    } catch (\Exception $e) {
 
         DB::rollBack();
 
-        Log::error('Login Error',[
-            'error'=>$e->getMessage()
+        Log::error('Login Error', [
+            'error' => $e->getMessage()
         ]);
 
-        return back()->with('error','Something Went Wrong');
+        return back()->with('error', 'Something Went Wrong');
     }
 }
 public function dashboard()
